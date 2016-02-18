@@ -21,7 +21,7 @@ def speak_command(args):
 def irc_command(args):
     database = Database(args.database)
     generator = Generator(database)
-    bot = Bot(generator, args.channel, args.nickname, args.server, args.port)
+    bot = Bot(generator, args.channels, args.nickname, args.server, args.port)
     bot.start()
 
 
@@ -40,8 +40,8 @@ def main():
 
     parser_irc = subparsers.add_parser('irc')
     parser_irc.add_argument('server')
-    parser_irc.add_argument('channel')
     parser_irc.add_argument('nickname')
+    parser_irc.add_argument('channels', metavar='channel', nargs='+')
     parser_irc.add_argument('-p', '--port', default=6667, type=int)
     parser_irc.set_defaults(func=irc_command)
 
