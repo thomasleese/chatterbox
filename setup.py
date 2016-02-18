@@ -16,7 +16,7 @@ setup(
     author_email='inbox@thomasleese.me',
     packages=find_packages(),
     entry_points={
-        'console_scripts': ['chatterbox = mo.cli:main']
+        'console_scripts': ['chatterbox = chatterbox.cli:main']
     },
     test_suite='tests',
     download_url='https://github.com/thomasleese/chatterbox/releases',

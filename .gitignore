@@ -63,3 +63,4 @@ target/
 
 # Chatterbox
 /venv
+/*.sqlite3
