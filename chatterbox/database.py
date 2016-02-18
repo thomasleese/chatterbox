@@ -66,7 +66,9 @@ class Database:
             self._words = {}
             self.cursor.execute('SELECT id, word, count FROM dictionary')
             for row in self.cursor:
-                self._words[row[1]] = Word(row[1], row[0], row[2])
+                word = Word(row[0], row[1], row[2])
+                self._words[row[0]] = word
+                self._words[row[1]] = word
             return self._words
 
     def add_word(self, word):
@@ -111,3 +113,22 @@ class Database:
 
         if chains:
             self.commit()
+
+    def find_chain(self, chain):
+        chain = self._convert_chain(chain)
+
+        sql = """
+            SELECT word1, word2, word3, word4, word5
+            FROM chains
+            WHERE
+        """
+
+        where = []
+        for i, entry in enumerate(chain):
+            where.append('word{} = ?'.format(i + 1))
+
+        sql += ' AND '.join(where)
+        sql += ' ORDER BY RANDOM() LIMIT 1'
+
+        self.cursor.execute(sql, chain)
+        return self.cursor.fetchone()
