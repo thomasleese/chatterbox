@@ -2,20 +2,20 @@ class Generator:
     def __init__(self, database):
         self.database = database
 
-    def generate_sentence(self, max_length=50):
+    def generate_sentence(self):
         words = []
 
         chain = self.database.find_chain([self.database.start_sentence_id])
 
-        while len(words) < max_length:
-            # take first three words
-            for word in chain[:3]:
+        while True:
+            # take first word
+            for word in chain[:1]:
                 words.append(self.database.words[word].value)
 
-            # use the next two words to find the next chain
-            next_chain = self.database.find_chain(chain[3:])
+            # use the next four words to find the next chain
+            next_chain = self.database.find_chain(chain[1:])
             if next_chain is None:
-                for word in chain[3:]:
+                for word in chain[1:]:
                     words.append(self.database.words[word].value)
                 break
 
