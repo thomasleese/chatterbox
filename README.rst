@@ -1,2 +1,4 @@
-# chatterbox
+Chatterbox
+==========
+
 Markov chain text generation.
