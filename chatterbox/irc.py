@@ -20,12 +20,12 @@ class Bot(irc.bot.SingleServerIRCBot):
             c.join(channel)
 
     def on_privmsg(self, c, e):
-        sentence = self.generator.generate_sentence()
+        sentence = self.generator.generate_sentence()[:450]
         time.sleep((random.random() + 1) * 0.015 * len(sentence))
         c.privmsg(e.source.nick, sentence)
 
     def on_pubmsg(self, c, e):
         if self.nick in e.arguments[0]:
-            sentence = self.generator.generate_sentence()
+            sentence = self.generator.generate_sentence()[:450]
             time.sleep((random.random() + 1) * 0.015 * len(sentence))
             c.privmsg(e.target, sentence)
