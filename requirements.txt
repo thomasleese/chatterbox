@@ -1,3 +1,14 @@
--e git+https://github.com/thomasleese/chatterbox.git@5f95793b5ca2d43b8f6b0cf4b51ada68e7600be5#egg=chatterbox-master
 coverage==4.0.3
+inflect==0.2.5
+irc==14.0
+jaraco.classes==1.3
+jaraco.collections==1.3.1
+jaraco.functools==1.8.1
+jaraco.itertools==1.7.1
+jaraco.logging==1.3.1
+jaraco.text==1.6.3
+more-itertools==2.2
 nltk==3.1
+pytz==2015.7
+six==1.10.0
+tempora==1.4

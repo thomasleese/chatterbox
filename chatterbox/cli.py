@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 
 from .database import Database
 from .importer import Importer
+from .irc import Bot
 from .generator import Generator
 
 
@@ -17,6 +18,13 @@ def speak_command(args):
     print(generator.generate_sentence())
 
 
+def irc_command(args):
+    database = Database(args.database)
+    generator = Generator(database)
+    bot = Bot(generator, args.channel, args.nickname, args.server, args.port)
+    bot.start()
+
+
 def main():
     parser = ArgumentParser()
     parser.add_argument('--database', default='chatterbox.sqlite3')
@@ -29,6 +37,13 @@ def main():
 
     parser_speak = subparsers.add_parser('speak')
     parser_speak.set_defaults(func=speak_command)
+
+    parser_irc = subparsers.add_parser('irc')
+    parser_irc.add_argument('server')
+    parser_irc.add_argument('channel')
+    parser_irc.add_argument('nickname')
+    parser_irc.add_argument('-p', '--port', default=6667, type=int)
+    parser_irc.set_defaults(func=irc_command)
 
     args = parser.parse_args()
 
