@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import nltk
 
 
@@ -28,6 +30,7 @@ class Importer:
             yield words[i:i + self.database.chain_length]
 
     def import_text(self, filename):
+        print('Importing:', filename)
         with open(filename) as file:
             sentences = self.find_sentences(file.read())
             for sentence in sentences:
@@ -36,3 +39,8 @@ class Importer:
 
                 chains = list(self.find_chains(words))
                 self.database.add_chains(chains)
+
+    def import_directory(self, name):
+        path = Path(name)
+        for filename in path.iterdir():
+            self.import_text(str(filename))

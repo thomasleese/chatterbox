@@ -1,4 +1,6 @@
 class Generator:
+    chain_length = 3  # different to database chain length
+
     def __init__(self, database):
         self.database = database
 
@@ -13,7 +15,7 @@ class Generator:
                 words.append(self.database.words[word].value)
 
             # use the next four words to find the next chain
-            next_chain = self.database.find_chain(chain[1:])
+            next_chain = self.database.find_chain(chain[1:self.chain_length])
             if next_chain is None:
                 for word in chain[1:]:
                     words.append(self.database.words[word].value)

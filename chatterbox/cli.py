@@ -8,7 +8,7 @@ from .generator import Generator
 def import_command(args):
     database = Database(args.database)
     importer = Importer(database)
-    importer.import_text(args.filename)
+    importer.import_directory(args.path)
 
 
 def speak_command(args):
@@ -24,7 +24,7 @@ def main():
     subparsers = parser.add_subparsers()
 
     parser_import = subparsers.add_parser('import')
-    parser_import.add_argument('filename')
+    parser_import.add_argument('path')
     parser_import.set_defaults(func=import_command)
 
     parser_speak = subparsers.add_parser('speak')
