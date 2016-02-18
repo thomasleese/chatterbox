@@ -12,6 +12,7 @@ class Word:
 class Database:
     start_sentence_id = 0
     end_sentence_id = 1
+    chain_length = 5
 
     def __init__(self, filename):
         self.db = sqlite3.connect(filename)
@@ -27,6 +28,15 @@ class Database:
 
             INSERT OR IGNORE INTO dictionary VALUES (0, '', 1);
             INSERT OR IGNORE INTO dictionary VALUES (1, '', 1);
+
+            CREATE TABLE IF NOT EXISTS chains (
+                id INTEGER PRIMARY KEY,
+                word1 INTEGER,
+                word2 INTEGER,
+                word3 INTEGER,
+                word4 INTEGER,
+                word5 INTEGER
+            );
         """
 
         self.cursor.executescript(sql)
@@ -74,4 +84,30 @@ class Database:
             self.add_word(word)
 
         if words:
+            self.commit()
+
+    def _convert_chain(self, chain):
+        converted = []
+        for entry in chain:
+            if isinstance(entry, int):
+                converted.append(entry)
+            elif isinstance(entry, str):
+                converted.append(self.words[entry].id)
+            else:
+                raise TypeError(entry)
+        return converted
+
+    def add_chain(self, chain):
+        chain = self._convert_chain(chain)
+        sql = """
+            INSERT INTO chains (word1, word2, word3, word4, word5)
+            VALUES (?, ?, ?, ?, ?)
+        """
+        self.cursor.execute(sql, chain)
+
+    def add_chains(self, chains):
+        for chain in chains:
+            self.add_chain(chain)
+
+        if chains:
             self.commit()
